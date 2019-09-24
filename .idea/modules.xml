@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/blog.binaryfour.local.iml" filepath="$PROJECT_DIR$/.idea/blog.binaryfour.local.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/api.binaryfour.iml" filepath="$PROJECT_DIR$/.idea/api.binaryfour.iml" />
     </modules>
   </component>
 </project>
