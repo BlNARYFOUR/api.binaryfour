@@ -15,13 +15,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::prefix('blogs')->group(function () {
     Route::get('/', [BlogController::class, 'get']);
     Route::get('{id}', [BlogController::class, 'getById']);
+    Route::get('images/{fileName}', [ImageController::class, 'get']);
 });
-
-Route::get('images/{fileName}', [ImageController::class, 'get']);
