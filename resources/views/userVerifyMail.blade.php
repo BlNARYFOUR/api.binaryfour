@@ -1,0 +1,1 @@
+<h1>The verification code is: <a>{{ $verificationCode }}</a></h1>
