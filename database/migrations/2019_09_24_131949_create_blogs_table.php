@@ -19,7 +19,7 @@ class CreateBlogsTable extends Migration
             $table->string('location');
             $table->float('duration');
             $table->string('title');
-            $table->string('body');
+            $table->longText('body');
             $table->string('goal_audience');
             $table->string('wallpaper')->default('blog.jpg');
             $table->timestamps();
