@@ -10,7 +10,7 @@ $factory->define(Blog::class, function (Faker $faker) {
         'date' => $faker->dateTime(),
         'location' => $faker->country,
         'duration' => $faker->randomFloat(2, 1, 24),
-        'title' => $faker->title,
+        'title' => $faker->sentence(3),
         'body' => $faker->paragraph,
         'goal_audience' => $faker->jobTitle,
     ];

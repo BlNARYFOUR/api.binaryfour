@@ -21,6 +21,7 @@ class CreateBlogsTable extends Migration
             $table->string('title');
             $table->string('body');
             $table->string('goal_audience');
+            $table->string('wallpaper')->default('blog.jpg');
             $table->timestamps();
         });
     }

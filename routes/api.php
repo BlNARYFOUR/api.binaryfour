@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 
 /*
@@ -18,7 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('blog')->group(function () {
+Route::prefix('blogs')->group(function () {
     Route::get('/', [BlogController::class, 'get']);
     Route::get('{id}', [BlogController::class, 'getById']);
 });
+
+Route::get('images/{fileName}', [ImageController::class, 'get']);

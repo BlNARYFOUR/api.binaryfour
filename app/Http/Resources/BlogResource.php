@@ -20,6 +20,7 @@ class BlogResource extends JsonResource
             'location' => $this->location,
             'duration' => $this->duration,
             'title' => $this->title,
+            'wallpaper' => $this->wallpaper,
         ];
     }
 }
