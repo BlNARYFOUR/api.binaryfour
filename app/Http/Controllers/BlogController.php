@@ -19,6 +19,9 @@ class BlogController extends Controller
     }
 
     public function getById(int $id) {
-        return new BlogDetailResource(Blog::find($id));
+        $prevId = Blog::where('id', '>', $id)->orderBy('id', 'ASC')->first();
+        $nextId = Blog::where('id', '<', $id)->orderBy('id', 'DESC')->first();
+
+        return ['previous' => $prevId, 'next' => $nextId, 'current' => new BlogDetailResource(Blog::find($id))];
     }
 }
