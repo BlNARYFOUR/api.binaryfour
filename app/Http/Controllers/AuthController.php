@@ -29,7 +29,17 @@ class AuthController extends Controller
     }
 
     public function verify($verifyToken) {
-        //User::where
+        $user = User::where('verify_token', $verifyToken)->first();
+
+        if(!is_null($user)) {
+            $user->verified_at = now();
+            $user->verify_token = null;
+            $user->save();
+
+            return response()->json(['message' => 'User successfully verified.']);
+        }
+
+        return response()->json(['message' => 'User could not be verified.']);
     }
 
     public function login()
