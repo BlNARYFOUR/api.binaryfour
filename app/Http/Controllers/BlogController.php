@@ -11,7 +11,11 @@ use phpDocumentor\Reflection\Types\Integer;
 class BlogController extends Controller
 {
     public function get() {
-        return BlogResource::collection(Blog::all());
+        return BlogResource::collection(Blog::orderBy('id', 'DESC')->paginate(6));
+    }
+
+    public function getLatest(int $skipId) {
+        return BlogResource::collection(Blog::where('id', '!=', $skipId)->orderBy('id', 'DESC')->paginate(6));
     }
 
     public function getById(int $id) {
