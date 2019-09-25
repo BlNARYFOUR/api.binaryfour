@@ -1,1 +1,3 @@
-<h1>The verification code is: <a>{{ $verificationCode }}</a></h1>
+<h2>Hello Brend :)</h2>
+
+<p>The verification code is: {{ $verificationCode }}</p>

@@ -20,9 +20,9 @@ class AuthController extends Controller
 
         $data = array('verificationCode' => $user->verify_token);
         Mail::send('userVerifyMail', $data, function($message) {
-            $message->to('brendlambert@hotmail.com', 'BinaryFour')->subject
+            $message->to('lambertbrend@gmail.com', 'BinaryFour')->subject
             ('blog.binaryfour.be - verify user');
-            $message->from('info@binaryfour.be','Virat Gandhi');
+            $message->from('info@binaryfour.be','info@binaryfour.be');
         });
 
         return response()->json(['message' => 'Registration succeeded. When your account has been verified, you will receive an email.']);
