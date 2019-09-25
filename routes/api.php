@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('register', [AuthController::class, 'register']);
-Route::post('verify/{verifyToken}', [AuthController::class, 'verify']);
+Route::post('verify', [AuthController::class, 'verify']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
 
