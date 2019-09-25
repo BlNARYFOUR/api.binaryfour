@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Response;
 class ImageController extends Controller
 {
     public function get($filename) {
-        $path = storage_path('app/public/images/' . $filename);
+        $path = storage_path('app/public/images/blogs/' . $filename);
 
         if (!File::exists($path)) {
             abort(404);
