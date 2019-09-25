@@ -28,8 +28,8 @@ class AuthController extends Controller
         return response()->json(['message' => 'Registration succeeded. When your account has been verified, you will receive an email.']);
     }
 
-    public function verify($verifyToken) {
-        $user = User::where('verify_token', $verifyToken)->first();
+    public function verify() {
+        $user = User::where('verify_token', request('token'))->first();
 
         if(!is_null($user)) {
             $user->verified_at = now();
