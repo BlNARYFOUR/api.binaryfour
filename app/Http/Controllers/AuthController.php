@@ -25,7 +25,7 @@ class AuthController extends Controller
             $message->from('info@binaryfour.be','info@binaryfour.be');
         });
 
-        return response()->json(['message' => 'Registration succeeded. When your account has been verified, you will receive an email.']);
+        return response()->json(['message' => 'Registration succeeded. When your account has been verified, you will receive an email.'], 201);
     }
 
     public function verify() {
@@ -36,7 +36,7 @@ class AuthController extends Controller
             $user->verify_token = null;
             $user->save();
 
-            return response()->json(['message' => 'User successfully verified.']);
+            return response()->json(['message' => 'User successfully verified.'], 202);
         }
 
         return response()->json(['message' => 'User could not be verified.']);
@@ -48,10 +48,12 @@ class AuthController extends Controller
 
         $verifiedAt = User::where('email', request('email'))->pluck('verified_at')->first();
 
-        return response()->json($verifiedAt);
+        if(is_null($verifiedAt)) {
+            return response()->json(['error' => 'User has not yet been verified.'], 401);
+        }
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Email and password do not match.'], 401);
         }
 
         return $this->respondWithToken($token);
