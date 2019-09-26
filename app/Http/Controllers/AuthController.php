@@ -19,6 +19,7 @@ class AuthController extends Controller
         ]);
 
         $data = array('verificationCode' => $user->verify_token);
+
         Mail::send('userVerifyMail', $data, function($message) {
             $message->to('lambertbrend@gmail.com', 'BinaryFour')->subject
             ('blog.binaryfour.be - verify user');
@@ -46,9 +47,9 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        $verifiedAt = User::where('email', request('email'))->pluck('verified_at')->first();
+        $user = User::where('email', request('email'))->first();
 
-        if(is_null($verifiedAt)) {
+        if(!is_null($user) && is_null($user->verified_at)) {
             return response()->json(['error' => 'User has not yet been verified.'], 401);
         }
 
