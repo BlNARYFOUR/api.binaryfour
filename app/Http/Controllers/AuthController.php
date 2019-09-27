@@ -3,22 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use PHPUnit\Exception;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $user = User::create([
-            'email'    => $request->email,
-            'name'     => $request->name,
-            'password' => $request->password,
-            'verify_token' => bcrypt($request->email),
-        ]);
+        $user = null;
 
-        $data = array('verificationCode' => $user->verify_token);
+        try {
+            $user = User::create([
+                'email' => $request->email,
+                'name' => $request->name,
+                'password' => $request->password,
+                'verify_token' => bcrypt($request->email),
+            ]);
+        } catch (QueryException $exception) {
+            return response(['error' => 'Email is already in use.'], 409);
+        }
+
+        $data = array('verificationCode' => $user->verify_token, 'email' => $user->email);
 
         Mail::send('userVerifyMail', $data, function($message) {
             $message->to('lambertbrend@gmail.com', 'BinaryFour')->subject
@@ -36,6 +44,12 @@ class AuthController extends Controller
             $user->verified_at = now();
             $user->verify_token = null;
             $user->save();
+
+            Mail::send('userVerifiedMail', [], function($message) use ($user) {
+                $message->to($user->email, $user->name)->subject
+                ('blog.binaryfour.be - User verified');
+                $message->from('info@binaryfour.be','info@binaryfour.be');
+            });
 
             return response()->json(['message' => 'User successfully verified.'], 202);
         }
