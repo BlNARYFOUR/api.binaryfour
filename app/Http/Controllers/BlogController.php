@@ -7,14 +7,18 @@ use App\Http\Requests\BlogCreateRequest;
 use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
-    public function get() {
-        return BlogResource::collection(Blog::orderBy('id', 'DESC')->paginate(6));
+    public function get(Request $request) {
+        $size = is_numeric($request->input('size')) ? $request->input('size') : 6;
+        $size = $size <= 20 ? $size : 20;
+
+        return BlogResource::collection(Blog::orderBy('id', 'DESC')->paginate($size));
     }
 
     public function getLatest(int $skipId) {
