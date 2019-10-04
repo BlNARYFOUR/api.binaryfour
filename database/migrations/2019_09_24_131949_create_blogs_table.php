@@ -21,8 +21,11 @@ class CreateBlogsTable extends Migration
             $table->string('title');
             $table->longText('body');
             $table->string('goal_audience');
-            $table->string('wallpaper')->default('blog.jpg');
+            $table->string('wallpaper')->default('images/blogs/blog.jpg');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

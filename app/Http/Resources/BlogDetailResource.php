@@ -22,7 +22,8 @@ class BlogDetailResource extends JsonResource
             'title' => $this->title,
             'body' => $this->body,
             'goal_audience' => $this->goal_audience,
-            'wallpaper' => $this->wallpaper,
+            'user_name' => $this->user->name,
+            //'wallpaper' => $this->wallpaper,
         ];
     }
 }

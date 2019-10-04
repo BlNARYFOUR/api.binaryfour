@@ -13,5 +13,6 @@ $factory->define(Blog::class, function (Faker $faker) {
         'title' => $faker->sentence(3),
         'body' => $faker->paragraph,
         'goal_audience' => $faker->jobTitle,
+        'user_id' => \App\User::first(),
     ];
 });

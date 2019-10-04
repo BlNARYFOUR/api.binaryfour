@@ -25,5 +25,13 @@ Route::prefix('blogs')->group(function () {
     Route::get('/', [BlogController::class, 'get']);
     Route::get('latest/{skipId}', [BlogController::class, 'getLatest']);
     Route::get('{id}', [BlogController::class, 'getById']);
-    Route::get('images/{fileName}', [ImageController::class, 'get']);
+    Route::get('images/{blogId}', [BlogController::class, 'getBlogImage']);
+
+    Route::middleware('auth')->group(function () {
+        Route::post('/', [BlogController::class, 'newBlog']);
+    });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('logged-in', [AuthController::class, 'getLoggedIn']);
 });

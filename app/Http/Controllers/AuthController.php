@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class AuthController extends Controller
             return response(['error' => 'Email is already in use.'], 409);
         }
 
-        $data = array('verificationCode' => $user->verify_token, 'email' => $user->email);
+        $data = array('verificationCode' => $user->verify_token, 'email' => $user->email, 'name' => $user->name);
 
         Mail::send('userVerifyMail', $data, function($message) {
             $message->to('lambertbrend@gmail.com', 'BinaryFour')->subject
@@ -54,7 +55,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'User successfully verified.'], 202);
         }
 
-        return response()->json(['message' => 'User could not be verified.']);
+        return response()->json(['message' => 'User could not be verified.'], 400);
     }
 
     public function login()
@@ -72,6 +73,10 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
+    }
+
+    public function getLoggedIn() {
+        return new UserResource(auth()->user());
     }
 
     public function logout()
