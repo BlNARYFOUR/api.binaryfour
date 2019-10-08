@@ -22,10 +22,12 @@ class CreateBlogsTable extends Migration
             $table->longText('body');
             $table->string('goal_audience');
             $table->string('wallpaper')->default('images/blogs/blog.jpg');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('tag_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('set null');
         });
     }
 
