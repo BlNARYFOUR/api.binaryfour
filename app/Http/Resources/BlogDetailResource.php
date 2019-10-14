@@ -24,7 +24,6 @@ class BlogDetailResource extends JsonResource
             'goal_audience' => $this->goal_audience,
             'user_name' => $this->user->name,
             'tag' => $this->tag ? $this->tag->name : null,
-            //'wallpaper' => $this->wallpaper,
         ];
     }
 }

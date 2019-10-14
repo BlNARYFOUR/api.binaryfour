@@ -6,6 +6,8 @@ use App\Blog;
 use App\Http\Requests\BlogCreateRequest;
 use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
+use App\Http\Resources\TagResource;
+use App\Tag;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -15,10 +17,13 @@ use Illuminate\Support\Facades\Storage;
 class BlogController extends Controller
 {
     public function get(Request $request) {
+        $tagId = $request->input('tag');
         $size = is_numeric($request->input('size')) ? $request->input('size') : 6;
         $size = $size <= 20 ? $size : 20;
 
-        return BlogResource::collection(Blog::orderBy('id', 'DESC')->paginate($size));
+        $res = is_null($tagId) ? Blog::orderBy('id', 'DESC')->paginate($size) : Blog::where('tag_id', $tagId)->orderBy('id', 'DESC')->paginate($size);
+
+        return BlogResource::collection($res);
     }
 
     public function getLatest(int $skipId) {
@@ -90,5 +95,9 @@ class BlogController extends Controller
         }
 
         return response()->json(['message' => 'new blog added', 'id' => $blog->id]);
+    }
+
+    function getTags() {
+        return TagResource::collection(Tag::all());
     }
 }

@@ -24,8 +24,9 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::prefix('blogs')->group(function () {
     Route::get('/', [BlogController::class, 'get']);
     Route::get('latest/{skipId}', [BlogController::class, 'getLatest']);
-    Route::get('{id}', [BlogController::class, 'getById']);
     Route::get('images/{blogId}', [BlogController::class, 'getBlogImage']);
+    Route::get('tags', [BlogController::class, 'getTags']);
+    Route::get('{id}', [BlogController::class, 'getById']);
 
     Route::middleware('auth')->group(function () {
         Route::post('/', [BlogController::class, 'newBlog']);
