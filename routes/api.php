@@ -30,6 +30,7 @@ Route::prefix('blogs')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::post('/', [BlogController::class, 'newBlog']);
+        Route::post('/tags', [BlogController::class, 'newTag']);
     });
 });
 

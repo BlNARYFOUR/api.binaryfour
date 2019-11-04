@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Blog;
 use App\Http\Requests\BlogCreateRequest;
+use App\Http\Requests\TagCreateRequest;
 use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
 use App\Http\Resources\TagResource;
@@ -70,6 +71,7 @@ class BlogController extends Controller
         $title = $request->input('title');
         $body = $request->input('body');
         $goalAudience = $request->input('goal_audience');
+        $tag = $request->input('tag');
         $image = $request->file('image');
 
         $imageName = md5(time().uniqid()) . '.' . $image->getClientOriginalExtension();
@@ -85,6 +87,7 @@ class BlogController extends Controller
         $blog->body = $body;
         $blog->goal_audience = $goalAudience;
         $blog->wallpaper = $imageName;
+        $blog->tag = $tag;
         $blog->user_id = auth()->id();
 
         try {
@@ -97,7 +100,23 @@ class BlogController extends Controller
         return response()->json(['message' => 'new blog added', 'id' => $blog->id]);
     }
 
-    function getTags() {
+    public function getTags() {
         return TagResource::collection(Tag::all());
+    }
+
+    public function newTag(TagCreateRequest $request) {
+        $name = $request->input('name');
+
+        $tag = new Tag();
+
+        $tag->name = $name;
+
+        try {
+            $tag->save();
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'Something went wrong. Please try again later.'], 406);
+        }
+
+        return response()->json(['message' => 'new tag added']);
     }
 }
