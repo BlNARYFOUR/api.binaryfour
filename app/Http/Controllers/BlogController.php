@@ -22,13 +22,13 @@ class BlogController extends Controller
         $size = is_numeric($request->input('size')) ? $request->input('size') : 6;
         $size = $size <= 20 ? $size : 20;
 
-        $res = is_null($tagId) ? Blog::orderBy('id', 'DESC')->paginate($size) : Blog::where('tag_id', $tagId)->orderBy('id', 'DESC')->paginate($size);
+        $res = is_null($tagId) ? Blog::orderBy('date', 'DESC')->paginate($size) : Blog::where('tag_id', $tagId)->orderBy('date', 'DESC')->paginate($size);
 
         return BlogResource::collection($res);
     }
 
     public function getLatest(int $skipId) {
-        return BlogResource::collection(Blog::where('id', '!=', $skipId)->orderBy('id', 'DESC')->paginate(6));
+        return BlogResource::collection(Blog::where('id', '!=', $skipId)->orderBy('date', 'DESC')->paginate(6));
     }
 
     public function getById(int $id) {
@@ -74,7 +74,7 @@ class BlogController extends Controller
         $tag = $request->input('tag');
         $image = $request->file('image');
 
-        $imageName = md5(time().uniqid()) . '.' . $image->getClientOriginalExtension();
+        //$imageName = md5(time().uniqid()) . '.' . $image->getClientOriginalExtension();
         //$image->move(storage_path('app/images/blogs/'), $imageName);
         $imageName = $image->store('images/blogs');
 
@@ -117,6 +117,6 @@ class BlogController extends Controller
             return response()->json(['error' => 'Something went wrong. Please try again later.'], 406);
         }
 
-        return response()->json(['message' => 'new tag added']);
+        return response()->json(['message' => 'new tag added', 'data' => new TagResource($tag)]);
     }
 }
