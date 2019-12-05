@@ -87,7 +87,7 @@ class BlogController extends Controller
         $blog->body = $body;
         $blog->goal_audience = $goalAudience;
         $blog->wallpaper = $imageName;
-        $blog->tag = $tag;
+        $blog->tag_id = $tag;
         $blog->user_id = auth()->id();
 
         try {
