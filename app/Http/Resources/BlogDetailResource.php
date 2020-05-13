@@ -22,7 +22,7 @@ class BlogDetailResource extends JsonResource
             'title' => $this->title,
             'body' => $this->body,
             'goal_audience' => $this->goal_audience,
-            'user_name' => $this->user->name,
+            'user_name' => $this->user ? $this->user->name : null,
             'tag' => $this->tag ? $this->tag->name : null,
         ];
     }
